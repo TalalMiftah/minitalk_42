@@ -1,28 +1,36 @@
-SRC = mandatory/client.c
-
-SSRC = mandatory/server.c
-
 SNAME = server
 
 CNAME = client
 
-HEADER_MANDA = mandatory/minitalk.h
+SNAME_B = server_bonus
+
+CNAME_B = client_bonus
 
 CC = CC
+
+HEADER = minitalk.h
 
 CFLAGS = -Wall -Wextra -Werror
 
 all: $(SNAME) $(CNAME)
 
-$(CNAME): $(SRC) $(HEADER_MANDA)
-	$(CC) $(CFALGS) $(SRC) -o $(CNAME)
+bonus: $(CNAME_B) $(SNAME_B)
 
-$(SNAME): $(SSRC) $(HEADER)
-	$(CC) $(CFALGS) $(SSRC) -o $(SNAME)
+$(CNAME): mandatory/client.c $(HEADER)
+	$(CC) $(CFLAGS) mandatory/client.c -o $(CNAME)
 
-fclean: clean
+$(SNAME): mandatory/server.c $(HEADER)
+	$(CC) $(CFLAGS) mandatory/server.c -o $(SNAME)
+
+$(CNAME_B): bonus/client_bonus.c $(HEADER)
+	$(CC) $(CFLAGS) bonus/client_bonus.c -o $(CNAME_B)
+
+$(SNAME_B): bonus/server_bonus.c $(HEADER)
+	$(CC) $(CFLAGS) bonus/server_bonus.c -o $(SNAME_B)
 
 clean:
-	rm -rf $(SNAME) $(CNAME)
+	rm -rf $(SNAME) $(CNAME) $(CNAME_B) $(SNAME_B)
+
+fclean: clean
 
 re: clean all
